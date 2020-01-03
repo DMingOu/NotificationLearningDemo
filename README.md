@@ -1,0 +1,2 @@
+# NotificationLearningDemo
+利用LiveData和ViewModel，监控蓝牙设备的连接与断开时间以测试续航，利用Notification与用户交互
