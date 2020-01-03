@@ -181,7 +181,7 @@ public class MainViewModel extends AndroidViewModel
 
     /**
      * 轮询获取当前设备是否已经连接
-     * 轮询时间：六秒
+     * 轮询时间：5秒
      */
     private void  pollCheckBlueToothDeviceStatus() {
         disposable = Observable.interval(500,5000, TimeUnit.MILLISECONDS)
