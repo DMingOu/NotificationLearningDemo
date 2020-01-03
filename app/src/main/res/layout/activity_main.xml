@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android = "http://schemas.android.com/apk/res/android"
+xmlns:app = "http://schemas.android.com/apk/res-auto"
+xmlns:tools = "http://schemas.android.com/tools"
+android:layout_width = "match_parent"
+android:layout_height = "match_parent"
+tools:context = ".MainActivity">
+
+                <TextView
+                android:id="@+id/tv_connected"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:text="已连接的蓝牙设备"
+                android:textSize="20sp"
+
+                />
+
+                <TextView
+                android:id="@+id/tv_deviceName_connected"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_below="@id/tv_connected"
+                android:text="暂未发现正在连接的蓝牙设备"
+                android:textSize="15sp"
+                />
+
+                <TextView
+                android:id = "@+id/tv_disconnected"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:text = "已断开的蓝牙设备"
+                android:visibility="gone"
+                android:textSize="18sp"
+                android:layout_below="@id/tv_deviceName_connected"
+                />
+
+                <TextView
+                android:id= "@+id/tv_deviceName_disconnected"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:visibility="gone"
+                android:textSize="18sp"
+                android:layout_below="@id/tv_disconnected"
+                />
+
+                <TextView
+                android:id="@+id/tv_time_disconnected"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_centerInParent="true"
+                android:textSize="14sp"
+                />
+
+</RelativeLayout>
