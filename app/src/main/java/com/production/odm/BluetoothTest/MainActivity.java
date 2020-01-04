@@ -30,7 +30,6 @@ import com.blankj.utilcode.util.ToastUtils;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-//Todo：后台可以一直轮询检测蓝牙检测状态，计划用Notification 取代 Toast
 public class MainActivity extends AppCompatActivity {
 
     TextView tvDeviceName;
@@ -72,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
      * 观察ViewModel中的变量
      */
     private void  initViewModelObserve() {
+
         viewModel.deviceNameConnected.observe(this, new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 tvDeviceName.setText(s);
-
             }
         });
         viewModel.timeDisConnected.observe(this, new Observer<String>() {
