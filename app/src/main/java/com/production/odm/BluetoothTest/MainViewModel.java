@@ -76,39 +76,40 @@ public class MainViewModel extends AndroidViewModel
 
          pollCheckBlueToothDeviceStatus();
          btAdapter = BluetoothAdapter.getDefaultAdapter();
-         initNotificationChannel();
+//         initNotificationChannel();
      }
 
-    /**
-     * 初始化渠道信息，适配Android 8.0
-     */
-    private void initNotificationChannel(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //高等级通知消息，会弹出
-            String channelId = "BlueToothDevice_BatteryExamination_Finished";
-            String channelName = "BlueToothDevice_BatteryExamination_Finished";
-            int importance = NotificationManager.IMPORTANCE_MAX;
-            createNotificationChannel(channelId, channelName, importance);
-            //默认等级的通知消息，消息栏图标
-            channelId = "BlueToothDevice_BatteryExamination_Ongoing";
-            channelName = "BlueToothDevice_BatteryExamination_Ongoing";
-            importance = NotificationManager.IMPORTANCE_DEFAULT;
-            createNotificationChannel(channelId, channelName, importance);
-        }
-    }
-
-    /**
-     * 初始化执行创建渠道
-     * @param channelId 渠道ID，需保证唯一
-     * @param channelName 渠道名
-     * @param importance 通知等级
-     */
-    @TargetApi(Build.VERSION_CODES.O)
-    private void createNotificationChannel(String channelId, String channelName, int importance) {
-        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.createNotificationChannel(channel);
-    }
+//    /**
+//     * 初始化渠道信息，适配Android 8.0
+//     */
+//    private void initNotificationChannel(){
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            //高等级通知消息，会弹出
+//            String channelId = "BlueToothDevice_BatteryExamination_Finished";
+//            String channelName = "BlueToothDevice_BatteryExamination_Finished";
+//            int importance = NotificationManager.IMPORTANCE_MAX;
+//            createNotificationChannel(channelId, channelName, importance);
+//            //默认等级的通知消息，消息栏图标
+//            channelId = "BlueToothDevice_BatteryExamination_Ongoing";
+//            channelName = "BlueToothDevice_BatteryExamination_Ongoing";
+//            importance = NotificationManager.IMPORTANCE_DEFAULT;
+//            createNotificationChannel(channelId, channelName, importance);
+//        }
+//    }
+//
+//    /**
+//     * 初始化执行创建渠道
+//     * @param channelId 渠道ID，需保证唯一
+//     * @param channelName 渠道名
+//     * @param importance 通知等级
+//     */
+//    @TargetApi(Build.VERSION_CODES.O)
+//    private void createNotificationChannel(String channelId, String channelName, int importance) {
+//        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+//        channel.setShowBadge(true);
+//        NotificationManager notificationManager = (NotificationManager) getApplication().getSystemService(NOTIFICATION_SERVICE);
+//        notificationManager.createNotificationChannel(channel);
+//    }
 
 
      private void getDeviceBluetoothConnected() {
@@ -132,10 +133,10 @@ public class MainViewModel extends AndroidViewModel
                          String deviceName = device .getName();
                          if(!"".equals(deviceName)) {
                              _deviceName.postValue(deviceName);
+                             //第一次检测到设备连接则创建 batteryTime ，并推送通知
                              if (batteryTime == null) {
                                  batteryTime = new deviceBatteryTime(deviceName , System.currentTimeMillis());
                                  ToastUtils.showLong(deviceName +" 已连接");
-//                                 _checkOngoing.postValue(true);
                                  sendMsg_ExaminationOngoing();
                              }
                          }
@@ -229,7 +230,10 @@ public class MainViewModel extends AndroidViewModel
         manager.notify(2, notification);
     }
 
-
+    /**
+     * 推送通知：测试结束
+     * @param result 测试时间字符串
+     */
     private void sendMsg_ExaminationFinished(String result) {
         NotificationManager manager = (NotificationManager)getApplication().getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -260,6 +264,7 @@ public class MainViewModel extends AndroidViewModel
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setLargeIcon(BitmapFactory.decodeResource(getApplication().getResources(), R.mipmap.ic_launcher_round))
                 .setAutoCancel(true)
+                .setNumber(1)
                 .setDefaults( Notification.DEFAULT_VIBRATE | Notification.DEFAULT_ALL | Notification.DEFAULT_SOUND )
                 .setContentIntent(resultPendingIntent)
                 .build();
